@@ -565,7 +565,7 @@ def show_display_pc(line_pc,point_pc,block_choice_next_pc,block_choice_hold_pc):
     color_1=color_I1
     color_2=color_I2  
     color_3=color_I3
-    block=True
+    draw_block=True
     
    elif ShowDisp_pc[k][l]==1.04:
     color_1=color_Z1
