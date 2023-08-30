@@ -781,7 +781,7 @@ while True:
     screen.blit(texts,[int(Scale*(700-150)),int(Scale*(370-100))])
 
     fonts = pygame.font.Font(None,int(Scale*(50)))
-    texts = fonts.render('ExcellentTTTTThhhh!!',True,(255,255,255))
+    texts = fonts.render('ExcellentTTThhhh!!GameClear!!!',True,(255,255,255))
     screen.blit(texts,[int(Scale*(700-150)),int(Scale*(370-200))])      
     FinalStage_Clear=False
 
