@@ -5,7 +5,7 @@
 
 ![TETORISプレイ動画](https://github.com/hiroaki-tanikawa/tetoris-vs-computer-/assets/143544995/acb21d45-4b72-47bf-b72e-07d063ac3422)
 
-# 操作方法  
+## 操作方法  
 ゲーム終了：Escキー  
 ゲーム開始：Spaceキー  
 
