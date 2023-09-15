@@ -8,7 +8,7 @@ import time
 pygame.init()
 GameLoop=False
 #画面表示-----------------
-Scale=0.7##########################画面に合わせてサイズ調整
+Scale=0.5##########################画面に合わせてサイズ調整
 Sc_height=950
 Sc_width=Sc_height/2
 n_h=20          #高さN数
@@ -781,7 +781,7 @@ while True:
     screen.blit(texts,[int(Scale*(700-150)),int(Scale*(370-100))])
 
     fonts = pygame.font.Font(None,int(Scale*(50)))
-    texts = fonts.render('ExcellentTTThhhh!!GameClear!!!',True,(255,255,255))
+    texts = fonts.render('ExcellentTTTTThhhh!!',True,(255,255,255))
     screen.blit(texts,[int(Scale*(700-150)),int(Scale*(370-200))])      
     FinalStage_Clear=False
 
@@ -1064,32 +1064,32 @@ while True:
                    BackDisp_pro_pc[n+3,1]==0 and np.all(BackDisp_pro_pc[n+3,2:n_w+1]==1):
                    four_mizo=1
                
-               #F1:ブロック消し加点
-               #F2:隙間少なさ加点
-               #F3:低さ加点    
-               #F4:テトリスボーナス   
-
-               #F11:デッドスペースの数
-               #F22:突出列の数    
-               #F33:高低差
-               #F44:左右に 4 マスの溝を作成できる
-                            
-               F1=value_delete
-               F2=sukima
-               F3=hikusa
-               F4=tetoris_bonus
-
-               F11=deadspace
-               F22=tosyutsu    
-               F33=koteisa_sum
-               F44=four_mizo
                
-               #a1,a2,a3,a4=90,20,20,1000000
-               a1,a2,a3,a4=200,0,50,0
-               a11,a22,a33,a44=-80,-10,-10,5
-               #a11,a22,a33,a44=0,0,0,0
+               #F=評価項目--------------------------------
+               F1=hikusa       #F1: 置いたブロックの低さ
+               F2=koteisa_sum  #F2: 周りのブロックとの高低差
+               F3=tosyutsu     #F3: 飛び出た列の数
+               F4=deadspace    #F4: 閉じたスペースの数
+               F5=sukima       #F5: 閉じてはないがブロックが入らないスペースの数    
+               F6=value_delete #F6: 消したライン数
+               F7=tetoris_bonus#F7: 4ライン消しボーナス
+               F8=four_mizo    #F8: 4ライン消しできる隙間が作れるか
+               #-----------------------------------------
 
-               value=a1*F1+a2*F2+a3*F3+a4*F4+a11*F11+a22*F22+a33*F33+a44*F44 
+               #a=重み(重要度)----------------------------
+               a1=50  #置いたブロックの低さ
+               a2=-10 #周りのブロックとの高低差
+               a3=-10 #飛び出た列の数
+               a4=-80 #閉じたスペースの数
+               a5=0   #閉じてはないがブロックが入らないスペースの数    
+               a6=200 #消したライン数
+               a7=0   #4ライン消しボーナス⇒a6：消したライン数でカバーされるため必要ない
+               a8=5   #4ライン消しできる隙間が作れるか
+               #------------------------------------------
+
+               #評価関数-----------------------------------
+               value=a1*F1+a2*F2+a3*F3+a4*F4+a5*F5+a6*F6+a7*F7+a8*F8 
+               #-------------------------------------------
 
                if np.any((BlockLoca_pc[:,:]+BackDisp_pc[:,:])>=2):value=-10000000 #重複防止
 
@@ -1110,30 +1110,19 @@ while True:
 
 
       #点数の高いものを選ぶ-------------
-      value_List[:]=List[:,2]             #block_choice_pc=random.randint(1,3)#######
+      value_List[:]=List[:,2]             
       index=np.argmax(value_List)
       i_pc,j_pc=int(List[index][0]),2
       rotate_N =int(List[index][1])
       value    =int(List[index][2])
       block_choice_pc=int(List[index][12])
 
-
+      
       value_delete=int(List[index][3])    
       sukima   =int(List[index][4])
       hikusa=int(List[index][5])    
       tetoris_bonus=int(List[index][6])
-
       hold=int(List[index][11])
-
-#      deadspace=int(List[index][7])    
- #     tosyutsu   =int(List[index][8])
-  #    koteisa_sum=int(List[index][9])    
-   #   four_mizo=int(List[index][10])
-      
-      #print(value_List)
-      #print(List[index,1])
-      #print("del_line,sukima,hikusa,tetoris_bonus",List[index][3:7]) 
-      #print("deadspace,tosyutu,koteisa,four_mizo",List[index][3:7])  
 
       
       #正式にドロップさせる-----------------
